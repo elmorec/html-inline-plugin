@@ -1,0 +1,27 @@
+{
+  "name": "html-inline-plugin",
+  "version": "0.0.1",
+  "description": "Inline your javascript and css files into html.",
+  "main": "index.js",
+  "dependencies": {
+    "source-map-url": "^0.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elmorec/html-inline-plugin.git"
+  },
+  "keywords": [
+    "webpack",
+    "plugin",
+    "html-webpack-plugin",
+    "inline"
+  ],
+  "author": "Elmore Cheng <elmore.c@outlook.com> (https://github.com/elmorec)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/elmorec/html-inline-plugin/issues"
+  },
+  "homepage": "https://github.com/elmorec/html-inline-plugin#readme"
+}
