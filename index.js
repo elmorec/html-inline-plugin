@@ -7,7 +7,7 @@ class HtmlInlinePlugin {
     isObject(options) || (options = {});
 
     if (!isObject(options.inline)) {
-      if (options.inline) {
+      if (options.hasOwnProperty('inline')) {
         let inline = isRegExp(options.inline) ? options.inline : !!options.inline;
         options.inline = { js: inline, css: inline };
       }
@@ -64,7 +64,8 @@ class HtmlInlinePlugin {
   }
 
   updateTag(tag, assetUrl, compilation) {
-    let assetName = path.posix.basename(assetUrl);
+    let publicUrlPrefix = compilation.outputOptions.publicPath || '';
+    let assetName = path.posix.relative(publicUrlPrefix, assetUrl);
     let asset = compilation.assets[assetName];
 
     let source = asset.source();
@@ -94,6 +95,8 @@ class HtmlInlinePlugin {
       if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
       }
+
+      rmdirSync(this.outDir, file);
     })
   }
 }
@@ -103,6 +106,24 @@ function isObject(obj) {
 }
 function isRegExp(obj) {
   return Object.prototype.toString.call(obj) === '[object RegExp]';
+}
+function rmdirSync(outDir, file) {
+  file = path.join(file).split(path.sep);
+  file.pop();
+
+  if (!file.length) return;
+
+  file = file.join(path.sep);
+  let dirPath = path.join(outDir, file);
+
+  if (fs.existsSync(dirPath)) {
+    let files = fs.readdirSync(dirPath);
+
+    if (!files.length) {
+      fs.rmdirSync(dirPath);
+    }
+  }
+  rmdirSync(outDir, file);
 }
 
 module.exports = HtmlInlinePlugin;
